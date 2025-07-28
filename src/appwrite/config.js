@@ -37,6 +37,7 @@ export class Service {
 
   async updatePost(slug, { title, content, featuredImage, status }) {
     try {
+        console.log("create post img",featuredImage);
       return await this.databases.updateDocument(
         conf.appwriteDatabaseId,
         conf.appwriteCollectionId,
