@@ -6,7 +6,6 @@ export class Service {
   databases;
   bucket;
   constructor() {
-    
     this.client
       .setEndpoint(conf.appwriteUrl)
       .setProject(conf.appwriteProjectId);
@@ -14,9 +13,9 @@ export class Service {
     this.bucket = new Storage(this.client);
   }
   async createPost({ title, slug, content, featuredImage, status, userId }) {
-      console.log("conf", conf);
-      console.log("create post id",conf.appwriteBucketId);
-      console.log("create post img",featuredImage);
+    console.log("conf", conf);
+    console.log("create post id", conf.appwriteBucketId);
+    console.log("create post img", featuredImage);
     try {
       return await this.databases.createDocument(
         conf.appwriteDatabaseId,
@@ -25,7 +24,7 @@ export class Service {
         {
           title,
           content,
-          featuredImg : featuredImage,
+          featuredImage,
           status,
           userId,
         }
@@ -36,7 +35,7 @@ export class Service {
   }
 
   async updatePost(slug, { title, content, featuredImage, status }) {
-      console.log("create post img",featuredImage);
+    console.log("create post img", featuredImage);
     try {
       return await this.databases.updateDocument(
         conf.appwriteDatabaseId,
@@ -45,7 +44,7 @@ export class Service {
         {
           title,
           content,
-          featuredImg: featuredImage,
+          featuredImage,
           status,
         }
       );
@@ -98,7 +97,7 @@ export class Service {
 
   async uploadFile(file) {
     console.log("file", file);
-    console.log("iddddddd",conf.appwriteBucketId);
+    console.log("iddddddd", conf.appwriteBucketId);
     try {
       return await this.bucket.createFile(
         conf.appwriteBucketId,
@@ -122,13 +121,7 @@ export class Service {
   }
 
   getFilePreview(fileId) {
-    console.log("fileId",fileId);
-    if (!fileId) {
-    console.warn("Missing fileId in getFilePreview()");
-    return null; 
-  }
-
-  return this.bucket.getFilePreview(conf.appwriteBucketId, fileId);
+    return this.bucket.getFilePreview(conf.appwriteBucketId, fileId);
   }
 }
 
