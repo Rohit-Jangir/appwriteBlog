@@ -7,6 +7,8 @@ const conf = {
 }
 
 console.log("conff", import.meta.env.VITE_APPWRITE_URL);
+console.log("b-id", import.meta.env.VITE_APPWRITE_BUCKET_ID);
+console.log("db-id", import.meta.env.VITE_APPWRITE_DATABASE_ID);
 
 // there was a name issue with the import.meta.env.VITE_APPWRITE_URL, it was later fixed in debugging video
 
