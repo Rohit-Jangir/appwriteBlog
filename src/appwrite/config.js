@@ -1,19 +1,18 @@
-import conf from "../conf/conf.js";
+import conf from "../conf/conf";
 import { Client, ID, Databases, Storage, Query } from "appwrite";
 
 export class Service {
   client = new Client();
   databases;
   bucket;
-
   constructor() {
+    
     this.client
       .setEndpoint(conf.appwriteUrl)
       .setProject(conf.appwriteProjectId);
     this.databases = new Databases(this.client);
     this.bucket = new Storage(this.client);
   }
-
   async createPost({ title, slug, content, featuredImage, status, userId }) {
     try {
       return await this.databases.createDocument(
@@ -23,7 +22,7 @@ export class Service {
         {
           title,
           content,
-          featuredImage,
+          featuredImg : featuredImage,
           status,
           userId,
         }
@@ -42,7 +41,7 @@ export class Service {
         {
           title,
           content,
-          featuredImage,
+          featuredImg: featuredImage,
           status,
         }
       );
@@ -94,11 +93,11 @@ export class Service {
   // file upload service
 
   async uploadFile(file) {
+    console.log("conf", conf);
     console.log("iddddddd",conf.appwriteBucketId);
     try {
       return await this.bucket.createFile(
         conf.appwriteBucketId,
-
         ID.unique(),
         file
       );
@@ -119,7 +118,13 @@ export class Service {
   }
 
   getFilePreview(fileId) {
-    return this.bucket.getFilePreview(conf.appwriteBucketId, fileId);
+    console.log("fileId",fileId);
+    if (!fileId) {
+    console.warn("Missing fileId in getFilePreview()");
+    return null; 
+  }
+
+  return this.bucket.getFilePreview(conf.appwriteBucketId, fileId);
   }
 }
 
