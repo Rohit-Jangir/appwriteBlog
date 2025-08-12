@@ -13,9 +13,6 @@ export class Service {
     this.bucket = new Storage(this.client);
   }
   async createPost({ title, slug, content, featuredImage, status, userId }) {
-    console.log("conf", conf);
-    console.log("create post id", conf.appwriteBucketId);
-    console.log("create post img", featuredImage);
     try {
       return await this.databases.createDocument(
         conf.appwriteDatabaseId,
@@ -25,7 +22,7 @@ export class Service {
           title,
           content,
           featuredImage,
-          status,
+          status, 
           userId,
         }
       );
@@ -35,7 +32,6 @@ export class Service {
   }
 
   async updatePost(slug, { title, content, featuredImage, status }) {
-    console.log("create post img", featuredImage);
     try {
       return await this.databases.updateDocument(
         conf.appwriteDatabaseId,
@@ -96,8 +92,7 @@ export class Service {
   // file upload service
 
   async uploadFile(file) {
-    console.log("file", file);
-    console.log("iddddddd", conf.appwriteBucketId);
+    console.log("Appwrite serive :: uploadFile :: file", file);
     try {
       return await this.bucket.createFile(
         conf.appwriteBucketId,
@@ -121,7 +116,9 @@ export class Service {
   }
 
   getFilePreview(fileId) {
-    return this.bucket.getFilePreview(conf.appwriteBucketId, fileId);
+    // return this.bucket.getFilePreview(conf.appwriteBucketId, fileId);
+
+    return `https://syd.cloud.appwrite.io/v1/storage/buckets/${`687de5d300172353f600`}/files/${fileId}/view?project=${`687ddfbe003a2513ed66`}`
   }
 }
 
